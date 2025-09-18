@@ -1,0 +1,22 @@
+# Visual Studio cache folders
+.vs/
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# Build results
+*.dll
+*.exe
+*.log
+*.pdb
+
+# Database and config
+*.dbmdl
+
+# Others
+*.tmp
+*.cache
+ECHO is on.
