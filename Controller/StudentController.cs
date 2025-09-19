@@ -1,4 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Controller
+using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
 
@@ -26,7 +35,7 @@ namespace StudentManagement.Controllers
         [HttpGet("{id}")]
         public ActionResult<Student> Get(string id)
         {
-            var student=studentService.Get(id);
+            var student = studentService.Get(id);
             if (student == null)
             {
                 return NotFound($"Student with Id={id} not found");
@@ -37,7 +46,7 @@ namespace StudentManagement.Controllers
         // POST api/<StudentsController>
         [HttpPost]
         public ActionResult<Student> Post([FromBody] Student student)
-            
+
         {
             studentService.Create(student);
             return CreatedAtAction(nameof(Get), new { id = student.Id }, student);
@@ -61,7 +70,7 @@ namespace StudentManagement.Controllers
         public ActionResult Delete(string id)
         {
             var student = studentService.Get(id);
-            if(student == null)
+            if (student == null)
             {
                 return NotFound($"Student with Id={id} not found");
             }
@@ -70,3 +79,4 @@ namespace StudentManagement.Controllers
         }
     }
 }
+

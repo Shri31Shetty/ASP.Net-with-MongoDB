@@ -1,10 +1,19 @@
-﻿using StudentManagement.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using MongoDB.Driver;
-namespace StudentManagement.Services
+using Models;
+namespace Services
 {
-    public class StudentService: IStudentService 
+    public class StudentService : IStudentService
     {
         private readonly IMongoCollection<Student> _students;
+
+        public StudentService()
+        {
+        }
 
         public StudentService(IStudentStoreDatabaseSettings settings, IMongoClient mongoClient)
         {
@@ -24,13 +33,13 @@ namespace StudentManagement.Services
         }
         public Student Get(string id)
         {
-            return _students.Find(student => student.Id==id).FirstOrDefault();
+            return _students.Find(student => student.Id == id).FirstOrDefault();
         }
         public void Remove(string id)
         {
             _students.DeleteOne(student => student.Id == id);
         }
-        public void Update(string id,Student student)
+        public void Update(string id, Student student)
         {
             _students.ReplaceOne(student => student.Id == id, student);
         }
