@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Models;
 
 namespace Repository
 {
     public interface IStudentRepository
     {
-        List<Student> Get();
-        Student Get(string id);
-        Student Create(Student student);
-        void Update(string id, Student student);
-        void Remove(string id);
+        Task<List<Student>> GetAsync();
+        Task<Student?> GetAsync(string id);
+        Task<Student> CreateAsync(Student student);
+        Task UpdateAsync(string id, Student student);
+        Task RemoveAsync(string id);
     }
 }

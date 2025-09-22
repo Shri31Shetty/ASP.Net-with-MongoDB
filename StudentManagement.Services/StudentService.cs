@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Models;
 using Repository;
 
@@ -9,33 +10,33 @@ namespace Services
         private readonly IStudentRepository _studentRepository;
 
         public StudentService(IStudentRepository studentRepository)
-        {       
+        {
             _studentRepository = studentRepository;
         }
 
-        public Student Create(Student student)
+        public async Task<List<Student>> GetAsync()
         {
-            return _studentRepository.Create(student);
+            return await _studentRepository.GetAsync();
         }
 
-        public List<Student> Get()
+        public async Task<Student?> GetAsync(string id)
         {
-            return _studentRepository.Get();
+            return await _studentRepository.GetAsync(id);
         }
 
-        public Student Get(string id)
+        public async Task<Student> CreateAsync(Student student)
         {
-            return _studentRepository.Get(id);
+            return await _studentRepository.CreateAsync(student);
         }
 
-        public void Remove(string id)
+        public async Task UpdateAsync(string id, Student student)
         {
-            _studentRepository.Remove(id);
+            await _studentRepository.UpdateAsync(id, student);
         }
 
-        public void Update(string id, Student student)
+        public async Task RemoveAsync(string id)
         {
-            _studentRepository.Update(id, student);
+            await _studentRepository.RemoveAsync(id);
         }
     }
 }

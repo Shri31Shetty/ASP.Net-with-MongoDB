@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MongoDB.Driver;
 using Models;
 
@@ -14,30 +15,30 @@ namespace Repository
             _students = database.GetCollection<Student>(settings.StudentCoursesCollectionName);
         }
 
-        public Student Create(Student student)
+        public async Task<Student> CreateAsync(Student student)
         {
-            _students.InsertOne(student);
+            await _students.InsertOneAsync(student);
             return student;
         }
 
-        public List<Student> Get()
+        public async Task<List<Student>> GetAsync()
         {
-            return _students.Find(student => true).ToList();
+            return await _students.Find(student => true).ToListAsync();
         }
 
-        public Student Get(string id)
+        public async Task<Student?> GetAsync(string id)
         {
-            return _students.Find(student => student.Id == id).FirstOrDefault();
+            return await _students.Find(student => student.Id == id).FirstOrDefaultAsync();
         }
 
-        public void Remove(string id)
+        public async Task RemoveAsync(string id)
         {
-            _students.DeleteOne(student => student.Id == id);
+            await _students.DeleteOneAsync(student => student.Id == id);
         }
 
-        public void Update(string id, Student student)
+        public async Task UpdateAsync(string id, Student student)
         {
-            _students.ReplaceOne(s => s.Id == id, student);
+            await _students.ReplaceOneAsync(s => s.Id == id, student);
         }
     }
 }

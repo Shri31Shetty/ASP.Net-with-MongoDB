@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace StudentManagement.Controllers
 {
@@ -16,46 +18,47 @@ namespace StudentManagement.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Student>> Get()
+        public async Task<ActionResult<List<Student>>> Get()
         {
-            return _studentService.Get();
+            var students = await _studentService.GetAsync();
+            return students;
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Student> Get(string id)
+        public async Task<ActionResult<Student>> Get(string id)
         {
-            var student = _studentService.Get(id);
+            var student = await _studentService.GetAsync(id);
             if (student == null)
                 return NotFound();
             return student;
         }
 
         [HttpPost]
-        public ActionResult<Student> Create(Student student)
+        public async Task<ActionResult<Student>> Create(Student student)
         {
-            var createdStudent = _studentService.Create(student);
+            var createdStudent = await _studentService.CreateAsync(student);
             return CreatedAtAction(nameof(Get), new { id = createdStudent.Id }, createdStudent);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(string id, Student student)
+        public async Task<IActionResult> Update(string id, Student student)
         {
-            var existingStudent = _studentService.Get(id);
+            var existingStudent = await _studentService.GetAsync(id);
             if (existingStudent == null)
-                return NotFound();
+                return NotFound();  
 
-            _studentService.Update(id, student);
+            await _studentService.UpdateAsync(id, student);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Remove(string id)
+        public async Task<IActionResult> Remove(string id)
         {
-            var existingStudent = _studentService.Get(id);
+            var existingStudent = await _studentService.GetAsync(id);
             if (existingStudent == null)
                 return NotFound();
 
-            _studentService.Remove(id);
+            await _studentService.RemoveAsync(id);
             return NoContent();
         }
     }
