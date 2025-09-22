@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Models;
 
-namespace Services
+namespace Repository
 {
-    public interface IStudentService
+    public interface IStudentRepository
     {
         List<Student> Get();
         Student Get(string id);
@@ -12,4 +12,3 @@ namespace Services
         void Remove(string id);
     }
 }
-    
