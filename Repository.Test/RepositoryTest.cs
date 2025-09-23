@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Models;
+using StudentModels;
 using Repository;
 using Moq;
 using MongoDB.Driver;
@@ -23,7 +23,11 @@ namespace Repository.Test
             mockClient.Setup(c => c.GetDatabase("TestDB", null)).Returns(mockDatabase.Object);
             mockDatabase.Setup(d => d.GetCollection<Student>("Students", null)).Returns(mockCollection.Object);
 
-            var repo = new StudentRepository(mockSettings.Object, mockClient.Object);
+            // Change this line:
+            // var repo = new StudentRepository(mockSettings.Object, mockClient.Object);
+            // To use the correct type from the StudentRepository namespace, e.g. StudentRepository.StudentRepository
+
+            var repo = new Repository.StudentRepository(mockSettings.Object, mockClient.Object);
             var student = new Student { Id = "1", Name = "Test" };
 
             var result = await repo.CreateAsync(student);

@@ -1,6 +1,8 @@
 ﻿//using Models;
 
-namespace Models
+using StudentModels;
+
+namespace StudentModels
 {
     public class StudentStoreDatabaseSettings : IStudentStoreDatabaseSettings
     {

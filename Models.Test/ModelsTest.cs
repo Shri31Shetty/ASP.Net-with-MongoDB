@@ -1,7 +1,7 @@
-using Models;
+using StudentModels;
 using Xunit;
 
-namespace Models.Test
+namespace StudentModels.Test
 {
     public class ModelsTest
     {

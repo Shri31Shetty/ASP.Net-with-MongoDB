@@ -1,0 +1,104 @@
+2025-09-22 11:49:23Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-22 11:49:23Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-22 11:49:23Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-22 11:49:23Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-22 11:49:23Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-22 11:50:02Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-22 11:50:02Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-22 11:50:02Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-22 11:50:02Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-22 11:50:02Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-22 11:50:19Z [Information] StudentManagement.Controllers.StudentsController: Get All Students
+2025-09-22 11:53:48Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-22 11:53:48Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-22 11:53:48Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-22 11:53:48Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-22 11:53:48Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-22 11:53:58Z [Information] StudentManagement.Controllers.StudentsController: Get All Students
+2025-09-22 11:57:18Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-22 11:57:18Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-22 11:57:18Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-22 11:57:18Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-22 11:57:18Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-22 11:57:32Z [Information] StudentManagement.Controllers.StudentsController: Get All Students
+2025-09-22 11:59:56Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-22 11:59:56Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-22 11:59:56Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-22 11:59:56Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-22 11:59:56Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-22 12:00:23Z [Information] StudentManagement.Controllers.StudentsController: Get All Students
+2025-09-22 12:00:23Z [Warning] StudentManagement.Controllers.StudentsController: Its Warning
+2025-09-22 12:03:49Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-22 12:03:49Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-22 12:03:49Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-22 12:03:49Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-22 12:03:49Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-22 12:04:00Z [Information] StudentManagement.Controllers.StudentsController: Get All Students
+2025-09-22 12:04:00Z [Warning] StudentManagement.Controllers.StudentsController: Its Warning
+2025-09-22 12:05:19Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-22 12:05:19Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-22 12:05:19Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-22 12:05:19Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-22 12:05:19Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-22 12:05:35Z [Information] StudentManagement.Controllers.StudentsController: Get All Students
+2025-09-22 12:05:35Z [Warning] StudentManagement.Controllers.StudentsController: Its Warning
+2025-09-22 12:05:35Z [Error] StudentManagement.Controllers.StudentsController: Error
+2025-09-23 03:36:38Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-23 03:36:38Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-23 03:36:38Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-23 03:36:38Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-23 03:36:38Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-23 03:42:34Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-23 03:42:34Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-23 03:42:34Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-23 03:42:34Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-23 03:42:34Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-23 03:57:01Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-23 03:57:01Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-23 03:57:01Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-23 03:57:01Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-23 03:57:01Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-23 04:04:45Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-23 04:04:45Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-23 04:04:45Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-23 04:04:45Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-23 04:04:45Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-23 04:17:02Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-23 04:17:02Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-23 04:17:02Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-23 04:17:02Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-23 04:17:02Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-23 04:22:39Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-23 04:22:39Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-23 04:22:39Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-23 04:22:39Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-23 04:22:39Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-23 04:37:40Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-23 04:37:40Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-23 04:37:40Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-23 04:37:40Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-23 04:37:40Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-23 04:37:46Z [Information] StudentManagement.Controllers.StudentsController: Get All Students
+2025-09-23 04:37:46Z [Warning] StudentManagement.Controllers.StudentsController: Its Warning
+2025-09-23 04:37:46Z [Error] StudentManagement.Controllers.StudentsController: Error
+2025-09-23 04:40:31Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-23 04:40:31Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-23 04:40:31Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-23 04:40:31Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-23 04:40:31Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-23 04:45:27Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-23 04:45:27Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-23 04:45:27Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-23 04:45:27Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-23 04:45:27Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-23 04:45:37Z [Information] StudentManagement.Controllers.StudentsController: Get All Students
+2025-09-23 04:45:37Z [Warning] StudentManagement.Controllers.StudentsController: Its Warning
+2025-09-23 04:45:37Z [Error] StudentManagement.Controllers.StudentsController: Error
+2025-09-23 05:20:58Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-23 05:20:58Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-23 05:20:58Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-23 05:20:58Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-23 05:20:58Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-23 05:21:11Z [Information] StudentManagement.Controllers.StudentsController: Get All Students
+2025-09-23 05:21:11Z [Warning] StudentManagement.Controllers.StudentsController: Its Warning
+2025-09-23 05:21:11Z [Error] StudentManagement.Controllers.StudentsController: Error

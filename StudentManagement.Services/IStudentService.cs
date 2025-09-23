@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Models;
+using StudentModels;
 
-namespace Services  
+namespace StudentServices  
 {
     public interface IStudentService
     {

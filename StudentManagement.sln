@@ -5,16 +5,11 @@ VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentManagement.API", "StudentManagement\StudentManagement.API.csproj", "{60E7456A-19E3-440F-A2C2-ED68EE5058FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "StudentManagement.Services\Services.csproj", "{FE188C87-F7D6-46EE-A6BB-664566BA96DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentServices", "StudentManagement.Services\StudentServices.csproj", "{FE188C87-F7D6-46EE-A6BB-664566BA96DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{920DAAEC-2CEC-4823-88A8-609C02F355E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentModels", "Models\StudentModels.csproj", "{920DAAEC-2CEC-4823-88A8-609C02F355E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{89037062-27FD-4A48-B704-2EF9257F258A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentManagment.API.Test", "StudentManagment.API.Test\StudentManagment.API.Test.csproj", "{0075C583-46D1-4C09-94FF-882B6D8C6201}"
 EndProject

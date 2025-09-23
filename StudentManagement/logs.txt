@@ -1,0 +1,5 @@
+2025-09-22 11:47:49Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-22 11:47:49Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-22 11:47:50Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-22 11:47:50Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-22 11:47:50Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement

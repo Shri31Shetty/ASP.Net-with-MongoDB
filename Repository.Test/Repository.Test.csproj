@@ -19,7 +19,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Models\StudentModels.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
+    <ProjectReference Include="..\Repository\StudentRepository.csproj" />
   </ItemGroup>
 
   <ItemGroup>

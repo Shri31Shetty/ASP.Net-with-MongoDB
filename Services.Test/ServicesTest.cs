@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Models;
-using Services;
+using StudentModels;
+using StudentServices;
 using Repository;
 using Moq;
 using Xunit;
 
-namespace Services.Test
+namespace StudentServices.Test
 {
     public class ServicesTest
     {

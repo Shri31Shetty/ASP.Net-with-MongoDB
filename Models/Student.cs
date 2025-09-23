@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Models
+namespace StudentModels
 {
     [BsonIgnoreExtraElements]
     public class Student

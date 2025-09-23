@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Models;
+using StudentModels;
 using Repository;
 
-namespace Services
+namespace StudentServices
 {
     public class StudentService : IStudentService
     {

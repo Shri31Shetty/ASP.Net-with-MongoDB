@@ -1,8 +1,10 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Models;
-using Services;
-using Repository;
+using StudentModels;
+using StudentServices;
+using Repository; 
+// Use the correct namespace for StudentRepository
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,11 +12,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<StudentStoreDatabaseSettings>(
     builder.Configuration.GetSection(nameof(StudentStoreDatabaseSettings)));
 
+builder.Services.AddLogging();
+builder.Logging.AddProvider(new SimpleFileLoggerProvider("Logger/logs.txt"));
+
 builder.Services.AddSingleton<IStudentStoreDatabaseSettings>(
     sp => sp.GetRequiredService<IOptions<StudentStoreDatabaseSettings>>().Value);
 
 builder.Services.AddSingleton<IMongoClient>(
-    s => new MongoClient(builder.Configuration.GetValue<string>("StudentStoreDatabaseSettings:ConnectionString")));
+    s => new MongoClient(builder.Configuration.GetValue<string>("StudentStoreDatabaseSettings:ConnectionString"))
+);
 
 // Register the repository and service using DI
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
@@ -35,8 +41,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapControllers();           
 

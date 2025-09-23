@@ -18,9 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Models\StudentModels.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
-    <ProjectReference Include="..\StudentManagement.Services\Services.csproj" />
+    <ProjectReference Include="..\StudentManagement.Services\StudentServices.csproj" />
   </ItemGroup>
 
   <ItemGroup>
