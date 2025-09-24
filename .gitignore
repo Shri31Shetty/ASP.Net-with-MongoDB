@@ -20,3 +20,6 @@ obj/
 *.tmp
 *.cache
 
+#Ignore Configuration file
+appsettings.json
+appsettings.Development.json

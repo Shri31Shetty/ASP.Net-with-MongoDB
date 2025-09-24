@@ -1,8 +1,13 @@
+
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using StudentModels;
 using StudentServices;
-using Repository; 
+using Repository;
+using System.Net;
+
+ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
 // Use the correct namespace for StudentRepository
 
 
@@ -42,6 +47,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapControllers();           
+app.MapControllers();
 
 app.Run();

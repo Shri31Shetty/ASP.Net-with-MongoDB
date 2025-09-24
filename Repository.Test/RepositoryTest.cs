@@ -1,38 +1,91 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using StudentModels;
-using Repository;
-using Moq;
-using MongoDB.Driver;
 using Xunit;
+using FluentAssertions;
+using Mongo2Go;
+using MongoDB.Driver;
+using StudentModels;
+using System;
+using System.Threading.Tasks;
+using Repository;
 
-namespace Repository.Test
+namespace StudentManagement.Tests
 {
-    public class RepositoryTest
+    public class StudentRepositoryTests : IDisposable
     {
-        [Fact]
-        public async Task CreateAsync_ShouldReturnStudent()
+        private readonly MongoDbRunner _mongoRunner;
+        private readonly IMongoClient _client;
+        private readonly StudentRepository _repository;
+
+        public StudentRepositoryTests()
         {
-            var mockCollection = new Mock<IMongoCollection<Student>>();
-            var mockSettings = new Mock<IStudentStoreDatabaseSettings>();
-            var mockClient = new Mock<IMongoClient>();
-            var mockDatabase = new Mock<IMongoDatabase>();
+            _mongoRunner = MongoDbRunner.Start();
+            _client = new MongoClient(_mongoRunner.ConnectionString);
 
-            mockSettings.SetupGet(s => s.DatabaseName).Returns("TestDB");
-            mockSettings.SetupGet(s => s.StudentCoursesCollectionName).Returns("Students");
-            mockClient.Setup(c => c.GetDatabase("TestDB", null)).Returns(mockDatabase.Object);
-            mockDatabase.Setup(d => d.GetCollection<Student>("Students", null)).Returns(mockCollection.Object);
+            var settings = new StudentStoreDatabaseSettings
+            {
+                DatabaseName = "TestDB",
+                StudentCoursesCollectionName = "Students"
+            };
 
-            // Change this line:
-            // var repo = new StudentRepository(mockSettings.Object, mockClient.Object);
-            // To use the correct type from the StudentRepository namespace, e.g. StudentRepository.StudentRepository
+            _repository = new StudentRepository(settings, _client);
+        }
 
-            var repo = new Repository.StudentRepository(mockSettings.Object, mockClient.Object);
-            var student = new Student { Id = "1", Name = "Test" };
+        [Fact]
+        public async Task CreateAsync_ShouldInsertStudent()
+        {
+            var student = new Student { Name = "Test Student", Gender = "Male", Age = 20, IsGraduated = false, Courses = new[] { "Math" } };
+            var result = await _repository.CreateAsync(student);
 
-            var result = await repo.CreateAsync(student);
+            result.Should().NotBeNull();
+            result.Id.Should().NotBeNullOrEmpty();
 
-            Assert.Equal("Test", result.Name);
+            var fetched = await _repository.GetAsync(student.Id);
+            fetched.Should().NotBeNull();
+            fetched!.Name.Should().Be("Test Student");
+        }
+
+        [Fact]
+        public async Task UpdateAsync_ShouldReplaceStudent()
+        {
+            var student = new Student { Name = "Before Update", Gender = "Male", Age = 22, IsGraduated = false, Courses = new[] { "Science" } };
+            await _repository.CreateAsync(student);
+
+            student.Name = "After Update";
+            await _repository.UpdateAsync(student.Id, student);
+
+            var fetched = await _repository.GetAsync(student.Id);
+            fetched.Should().NotBeNull();
+            fetched!.Name.Should().Be("After Update");
+        }
+
+        [Fact]
+        public async Task RemoveAsync_ShouldDeleteStudent()
+        {
+            var student = new Student { Name = "To Delete", Gender = "Female", Age = 30, IsGraduated = true, Courses = new[] { "History" } };
+            await _repository.CreateAsync(student);
+
+            await _repository.RemoveAsync(student.Id);
+
+            var fetched = await _repository.GetAsync(student.Id);
+            fetched.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task GetAsync_ShouldReturnAllStudents()
+        {
+            var student1 = new Student { Name = "S1", Gender = "Male", Age = 18, IsGraduated = false, Courses = new[] { "English" } };
+            var student2 = new Student { Name = "S2", Gender = "Female", Age = 21, IsGraduated = true, Courses = new[] { "Physics" } };
+
+            await _repository.CreateAsync(student1);
+            await _repository.CreateAsync(student2);
+
+            var all = await _repository.GetAsync();
+            all.Should().NotBeNull();
+            all.Should().HaveCount(2);
+        }
+
+        public void Dispose()
+        {
+            _mongoRunner.Dispose();
         }
     }
 }
