@@ -9,7 +9,7 @@ using Xunit;
 using Microsoft.Extensions.Logging;
 using FluentAssertions;
 
-namespace StudentManagment.API.Test
+namespace StudentManagement.Test
 {
     public class StudentManagementAPITest
     {
@@ -19,22 +19,21 @@ namespace StudentManagment.API.Test
             return new StudentsController(mockService.Object, mockLogger.Object);
         }
 
+        private const string ValidObjectId = "507f1f77bcf86cd799439011"; // valid MongoDB ObjectId
+
         [Fact]
         public async Task Get_ReturnsListOfStudents()
         {
-            // Arrange
             var mockService = new Mock<IStudentService>();
             mockService.Setup(s => s.GetAsync()).ReturnsAsync(new List<Student>
             {
-                new Student { Id = "1", Name = "Lakshmi", Age = 20, Gender = "Female", IsGraduated = false, Courses = new[] { "Math" } }
+                new Student { Id = ValidObjectId, Name = "Lakshmi", Age = 20, Gender = "Female", IsGraduated = false, Courses = new[] { "Math" } }
             });
 
             var controller = GetController(mockService);
 
-            // Act
             var actionResult = await controller.Get();
 
-            // Assert
             var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             var students = Assert.IsType<List<Student>>(okResult.Value);
             students.Should().HaveCount(1);
@@ -44,18 +43,15 @@ namespace StudentManagment.API.Test
         [Fact]
         public async Task GetById_ReturnsStudent_WhenExists()
         {
-            // Arrange
             var mockService = new Mock<IStudentService>();
-            mockService.Setup(s => s.GetAsync("1")).ReturnsAsync(
-                new Student { Id = "1", Name = "Lakshmi", Age = 20, Gender = "Female", IsGraduated = false, Courses = new[] { "Math" } }
+            mockService.Setup(s => s.GetAsync(ValidObjectId)).ReturnsAsync(
+                new Student { Id = ValidObjectId, Name = "Lakshmi", Age = 20, Gender = "Female", IsGraduated = false, Courses = new[] { "Math" } }
             );
 
             var controller = GetController(mockService);
 
-            // Act
-            var actionResult = await controller.Get("1");
+            var actionResult = await controller.Get(ValidObjectId);
 
-            // Assert
             var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
             var student = Assert.IsType<Student>(okResult.Value);
             student.Name.Should().Be("Lakshmi");
@@ -64,33 +60,27 @@ namespace StudentManagment.API.Test
         [Fact]
         public async Task GetById_ReturnsNotFound_WhenNotExists()
         {
-            // Arrange
             var mockService = new Mock<IStudentService>();
-            mockService.Setup(s => s.GetAsync("2")).ReturnsAsync((Student?)null);
+            mockService.Setup(s => s.GetAsync(ValidObjectId)).ReturnsAsync((Student?)null);
 
             var controller = GetController(mockService);
 
-            // Act
-            var actionResult = await controller.Get("2");
+            var actionResult = await controller.Get(ValidObjectId);
 
-            // Assert
-            Assert.IsType<NotFoundResult>(actionResult.Result);
+            Assert.IsType<NotFoundObjectResult>(actionResult.Result); // updated
         }
 
         [Fact]
         public async Task Create_ReturnsCreatedStudent()
         {
-            // Arrange
-            var student = new Student { Id = "1", Name = "Lakshmi", Age = 20, Gender = "Female", IsGraduated = false, Courses = new[] { "Math" } };
+            var student = new Student { Id = ValidObjectId, Name = "Lakshmi", Age = 20, Gender = "Female", IsGraduated = false, Courses = new[] { "Math" } };
             var mockService = new Mock<IStudentService>();
             mockService.Setup(s => s.CreateAsync(It.IsAny<Student>())).ReturnsAsync(student);
 
             var controller = GetController(mockService);
 
-            // Act
             var actionResult = await controller.Create(student);
 
-            // Assert
             var createdResult = Assert.IsType<CreatedAtActionResult>(actionResult.Result);
             var returnedStudent = Assert.IsType<Student>(createdResult.Value);
             returnedStudent.Name.Should().Be("Lakshmi");
@@ -99,70 +89,58 @@ namespace StudentManagment.API.Test
         [Fact]
         public async Task Update_ReturnsNoContent_WhenStudentExists()
         {
-            // Arrange
-            var student = new Student { Id = "1", Name = "Updated", Age = 21, Gender = "Male", IsGraduated = false, Courses = new[] { "Math" } };
+            var student = new Student { Id = ValidObjectId, Name = "Updated", Age = 21, Gender = "Male", IsGraduated = false, Courses = new[] { "Math" } };
             var mockService = new Mock<IStudentService>();
-            mockService.Setup(s => s.GetAsync("1")).ReturnsAsync(student);
-            mockService.Setup(s => s.UpdateAsync("1", student)).Returns(Task.CompletedTask);
+            mockService.Setup(s => s.GetAsync(ValidObjectId)).ReturnsAsync(student);
+            mockService.Setup(s => s.UpdateAsync(ValidObjectId, student)).Returns(Task.CompletedTask);
 
             var controller = GetController(mockService);
 
-            // Act
-            var result = await controller.Update("1", student);
+            var result = await controller.Update(ValidObjectId, student);
 
-            // Assert
             Assert.IsType<NoContentResult>(result);
         }
 
         [Fact]
         public async Task Update_ReturnsNotFound_WhenStudentDoesNotExist()
         {
-            // Arrange
-            var student = new Student { Id = "1", Name = "Updated" };
+            var student = new Student { Id = ValidObjectId, Name = "Updated" };
             var mockService = new Mock<IStudentService>();
-            mockService.Setup(s => s.GetAsync("1")).ReturnsAsync((Student?)null);
+            mockService.Setup(s => s.GetAsync(ValidObjectId)).ReturnsAsync((Student?)null);
 
             var controller = GetController(mockService);
 
-            // Act
-            var result = await controller.Update("1", student);
+            var result = await controller.Update(ValidObjectId, student);
 
-            // Assert
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<NotFoundObjectResult>(result); // updated
         }
 
         [Fact]
         public async Task Remove_ReturnsNoContent_WhenStudentExists()
         {
-            // Arrange
-            var student = new Student { Id = "1", Name = "To Delete", Age = 22, Gender = "Male", IsGraduated = false, Courses = new[] { "Science" } };
+            var student = new Student { Id = ValidObjectId, Name = "To Delete", Age = 22, Gender = "Male", IsGraduated = false, Courses = new[] { "Science" } };
             var mockService = new Mock<IStudentService>();
-            mockService.Setup(s => s.GetAsync("1")).ReturnsAsync(student);
-            mockService.Setup(s => s.RemoveAsync("1")).Returns(Task.CompletedTask);
+            mockService.Setup(s => s.GetAsync(ValidObjectId)).ReturnsAsync(student);
+            mockService.Setup(s => s.RemoveAsync(ValidObjectId)).Returns(Task.CompletedTask);
 
             var controller = GetController(mockService);
 
-            // Act
-            var result = await controller.Remove("1");
+            var result = await controller.Remove(ValidObjectId);
 
-            // Assert
             Assert.IsType<NoContentResult>(result);
         }
 
         [Fact]
         public async Task Remove_ReturnsNotFound_WhenStudentDoesNotExist()
         {
-            // Arrange
             var mockService = new Mock<IStudentService>();
-            mockService.Setup(s => s.GetAsync("1")).ReturnsAsync((Student?)null);
+            mockService.Setup(s => s.GetAsync(ValidObjectId)).ReturnsAsync((Student?)null);
 
             var controller = GetController(mockService);
 
-            // Act
-            var result = await controller.Remove("1");
+            var result = await controller.Remove(ValidObjectId);
 
-            // Assert
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<NotFoundObjectResult>(result); // updated
         }
     }
 }
