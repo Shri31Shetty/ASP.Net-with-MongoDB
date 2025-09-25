@@ -559,3 +559,209 @@ System.FormatException: '68d39228a324c5a6d7d54c59l' is not a valid 24 digit hex 
 2025-09-24 10:58:22Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
 2025-09-24 10:58:22Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
 2025-09-24 10:58:22Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-24 11:01:16Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-24 11:01:16Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-24 11:01:16Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-24 11:01:16Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-24 11:01:16Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-24 11:02:12Z [Error] StudentManagement.Controllers.StudentsController: Error fetching all students
+System.TimeoutException: A timeout occurred after 30012ms selecting a server using CompositeServerSelector{ Selectors = ReadPreferenceServerSelector{ ReadPreference = { Mode : Primary } }, LatencyLimitingServerSelector{ AllowedLatencyRange = 00:00:00.0150000 }, OperationsCountServerSelector }. Client view of cluster state is { ClusterId : "1", Type : "ReplicaSet", State : "Disconnected", Servers : [{ ServerId: "{ ClusterId : 1, EndPoint : "Unspecified/ac-qwgszfx-shard-00-00.kocor7p.mongodb.net:27017" }", EndPoint: "Unspecified/ac-qwgszfx-shard-00-00.kocor7p.mongodb.net:27017", ReasonChanged: "Heartbeat", State: "Disconnected", ServerVersion: , TopologyVersion: , Type: "Unknown", HeartbeatException: "MongoDB.Driver.MongoConnectionException: An exception occurred while opening a connection to the server.
+ ---> System.Security.Authentication.AuthenticationException: Authentication failed, see inner exception.
+ ---> System.ComponentModel.Win32Exception (0x80090304): The Local Security Authority cannot be contacted
+   --- End of inner exception stack trace ---
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.AuthenticateAsClient(SslClientAuthenticationOptions sslClientAuthenticationOptions)
+   at MongoDB.Driver.Core.Connections.SslStreamFactory.CreateStream(EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelper(OperationContext operationContext)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelper(OperationContext operationContext)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.Open(OperationContext operationContext)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.InitializeConnection(OperationContext operationContext)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.Heartbeat(CancellationToken cancellationToken)", LastHeartbeatTimestamp: "2025-09-24T11:02:10.4824949Z", LastUpdateTimestamp: "2025-09-24T11:02:10.4824953Z" }, { ServerId: "{ ClusterId : 1, EndPoint : "Unspecified/ac-qwgszfx-shard-00-01.kocor7p.mongodb.net:27017" }", EndPoint: "Unspecified/ac-qwgszfx-shard-00-01.kocor7p.mongodb.net:27017", ReasonChanged: "Heartbeat", State: "Disconnected", ServerVersion: , TopologyVersion: , Type: "Unknown", HeartbeatException: "MongoDB.Driver.MongoConnectionException: An exception occurred while opening a connection to the server.
+ ---> System.Security.Authentication.AuthenticationException: Authentication failed, see inner exception.
+ ---> System.ComponentModel.Win32Exception (0x80090304): The Local Security Authority cannot be contacted
+   --- End of inner exception stack trace ---
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.AuthenticateAsClient(SslClientAuthenticationOptions sslClientAuthenticationOptions)
+   at MongoDB.Driver.Core.Connections.SslStreamFactory.CreateStream(EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelper(OperationContext operationContext)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelper(OperationContext operationContext)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.Open(OperationContext operationContext)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.InitializeConnection(OperationContext operationContext)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.Heartbeat(CancellationToken cancellationToken)", LastHeartbeatTimestamp: "2025-09-24T11:02:10.4440559Z", LastUpdateTimestamp: "2025-09-24T11:02:10.4440563Z" }, { ServerId: "{ ClusterId : 1, EndPoint : "Unspecified/ac-qwgszfx-shard-00-02.kocor7p.mongodb.net:27017" }", EndPoint: "Unspecified/ac-qwgszfx-shard-00-02.kocor7p.mongodb.net:27017", ReasonChanged: "Heartbeat", State: "Disconnected", ServerVersion: , TopologyVersion: , Type: "Unknown", HeartbeatException: "MongoDB.Driver.MongoConnectionException: An exception occurred while opening a connection to the server.
+ ---> System.Security.Authentication.AuthenticationException: Authentication failed, see inner exception.
+ ---> System.ComponentModel.Win32Exception (0x80090304): The Local Security Authority cannot be contacted
+   --- End of inner exception stack trace ---
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.AuthenticateAsClient(SslClientAuthenticationOptions sslClientAuthenticationOptions)
+   at MongoDB.Driver.Core.Connections.SslStreamFactory.CreateStream(EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelper(OperationContext operationContext)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelper(OperationContext operationContext)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.Open(OperationContext operationContext)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.InitializeConnection(OperationContext operationContext)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.Heartbeat(CancellationToken cancellationToken)", LastHeartbeatTimestamp: "2025-09-24T11:02:10.4671016Z", LastUpdateTimestamp: "2025-09-24T11:02:10.4671018Z" }] }.
+   at MongoDB.Driver.Core.Clusters.Cluster.SelectServerAsync(OperationContext operationContext, IServerSelector selector)
+   at MongoDB.Driver.Core.Clusters.IClusterExtensions.SelectServerAndPinIfNeededAsync(IClusterInternal cluster, OperationContext operationContext, ICoreSessionHandle session, IServerSelector selector, IReadOnlyCollection`1 deprioritizedServers)
+   at MongoDB.Driver.Core.Bindings.ReadPreferenceBinding.GetReadChannelSourceAsync(OperationContext operationContext, IReadOnlyCollection`1 deprioritizedServers)
+   at MongoDB.Driver.Core.Operations.RetryableReadContext.AcquireOrReplaceChannelAsync(OperationContext operationContext, IReadOnlyCollection`1 deprioritizedServers)
+   at MongoDB.Driver.Core.Operations.RetryableReadContext.CreateAsync(OperationContext operationContext, IReadBinding binding, Boolean retryRequested)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, IReadBinding binding)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperationAsync[TResult](OperationContext operationContext, IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, Boolean allowChannelPinning)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperationAsync[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference explicitReadPreference, Nullable`1 timeout, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindAsync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.ToListAsync[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at Repository.StudentRepository.GetAsync() in C:\Users\ShriLakshmiM\source\repos\StudentManagement\Repository\StudentRepository.cs:line 44
+   at StudentServices.StudentService.GetAsync() in C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement.Services\StudentService.cs:line 30
+   at StudentManagement.Controllers.StudentsController.Get() in C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement\Controllers\StudentsController.cs:line 54
+2025-09-24 11:11:23Z [Error] StudentManagement.Controllers.StudentsController: Error creating student
+MongoDB.Bson.BsonSerializationException: An error occurred while serializing the Id property of class StudentModels.Student: 'string' is not a valid 24 digit hex string.
+ ---> System.FormatException: 'string' is not a valid 24 digit hex string.
+   at MongoDB.Bson.ObjectId.Parse(String s)
+   at MongoDB.Bson.Serialization.Serializers.StringSerializer.SerializeValue(BsonSerializationContext context, BsonSerializationArgs args, String value)
+   at MongoDB.Bson.Serialization.Serializers.SealedClassSerializerBase`1.Serialize(BsonSerializationContext context, BsonSerializationArgs args, TValue value)
+   at MongoDB.Bson.Serialization.IBsonSerializerExtensions.Serialize(IBsonSerializer serializer, BsonSerializationContext context, Object value)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.SerializeNormalMember(BsonSerializationContext context, Object obj, BsonMemberMap memberMap)
+   at MongoDB.Bson.Serialization.BsonClassMapSerializer`1.SerializeMember(BsonSerializationContext context, Object obj, BsonMemberMap memberMap)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.Core.Operations.RetryableWriteOperationExecutor.ExecuteAsync[TResult](OperationContext operationContext, IRetryableWriteOperation`1 operation, RetryableWriteContext context)
+   at MongoDB.Driver.Core.Operations.BulkUnmixedWriteOperationBase`1.ExecuteBatchAsync(OperationContext operationContext, RetryableWriteContext context, Batch batch)
+   at MongoDB.Driver.Core.Operations.BulkUnmixedWriteOperationBase`1.ExecuteBatchesAsync(OperationContext operationContext, RetryableWriteContext context)
+   at MongoDB.Driver.Core.Operations.BulkMixedWriteOperation.ExecuteBatchAsync(OperationContext operationContext, RetryableWriteContext context, Batch batch)
+   at MongoDB.Driver.Core.Operations.BulkMixedWriteOperation.ExecuteAsync(OperationContext operationContext, IWriteBinding binding)
+   at MongoDB.Driver.OperationExecutor.ExecuteWriteOperationAsync[TResult](OperationContext operationContext, IClientSessionHandle session, IWriteOperation`1 operation, Boolean allowChannelPinning)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteWriteOperationAsync[TResult](IClientSessionHandle session, IWriteOperation`1 operation, Nullable`1 timeout, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWriteAsync(IClientSessionHandle session, IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.BulkWriteAsync(IEnumerable`1 requests, BulkWriteOptions options, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionBase`1.InsertOneAsync(TDocument document, InsertOneOptions options, Func`3 bulkWriteAsync)
+   at Repository.StudentRepository.CreateAsync(Student student) in C:\Users\ShriLakshmiM\source\repos\StudentManagement\Repository\StudentRepository.cs:line 34
+   at StudentServices.StudentService.CreateAsync(Student student) in C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement.Services\StudentService.cs:line 57
+   at StudentManagement.Controllers.StudentsController.Create(Student student) in C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement\Controllers\StudentsController.cs:line 114
+2025-09-25 03:42:08Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-25 03:42:08Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-25 03:42:09Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-25 03:42:09Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-25 03:42:09Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-25 04:00:09Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-25 04:00:09Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-25 04:00:09Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-25 04:00:09Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-25 04:00:09Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-25 04:15:39Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-25 04:15:39Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-25 04:15:39Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-25 04:15:39Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-25 04:15:39Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-25 04:17:44Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-25 04:17:44Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-25 04:17:44Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-25 04:17:44Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-25 04:17:44Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-25 04:21:15Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-25 04:21:15Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-25 04:21:15Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-25 04:21:15Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-25 04:21:15Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-25 04:21:30Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-25 04:21:30Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-25 04:21:30Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-25 04:21:30Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-25 04:21:30Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-25 04:27:31Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-25 04:27:31Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-25 04:27:31Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-25 04:27:31Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-25 04:27:31Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-25 04:40:41Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-25 04:40:41Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-25 04:40:41Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-25 04:40:41Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-25 04:40:41Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-25 04:42:37Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-25 04:42:37Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-25 04:42:37Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-25 04:42:37Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-25 04:42:37Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-25 05:15:51Z [Error] Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware: An unhandled exception has occurred while executing the request.
+System.TimeoutException: A timeout occurred after 30014ms selecting a server using CompositeServerSelector{ Selectors = ReadPreferenceServerSelector{ ReadPreference = { Mode : Primary } }, LatencyLimitingServerSelector{ AllowedLatencyRange = 00:00:00.0150000 }, OperationsCountServerSelector }. Client view of cluster state is { ClusterId : "1", Type : "ReplicaSet", State : "Disconnected", Servers : [{ ServerId: "{ ClusterId : 1, EndPoint : "Unspecified/ac-qwgszfx-shard-00-00.kocor7p.mongodb.net:27017" }", EndPoint: "Unspecified/ac-qwgszfx-shard-00-00.kocor7p.mongodb.net:27017", ReasonChanged: "Heartbeat", State: "Disconnected", ServerVersion: , TopologyVersion: , Type: "Unknown", HeartbeatException: "MongoDB.Driver.MongoConnectionException: An exception occurred while opening a connection to the server.
+ ---> System.Security.Authentication.AuthenticationException: Authentication failed, see inner exception.
+ ---> System.ComponentModel.Win32Exception (0x80090304): The Local Security Authority cannot be contacted
+   --- End of inner exception stack trace ---
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.AuthenticateAsClient(SslClientAuthenticationOptions sslClientAuthenticationOptions)
+   at MongoDB.Driver.Core.Connections.SslStreamFactory.CreateStream(EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelper(OperationContext operationContext)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelper(OperationContext operationContext)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.Open(OperationContext operationContext)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.InitializeConnection(OperationContext operationContext)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.Heartbeat(CancellationToken cancellationToken)", LastHeartbeatTimestamp: "2025-09-25T05:15:48.6151997Z", LastUpdateTimestamp: "2025-09-25T05:15:48.6151999Z" }, { ServerId: "{ ClusterId : 1, EndPoint : "Unspecified/ac-qwgszfx-shard-00-01.kocor7p.mongodb.net:27017" }", EndPoint: "Unspecified/ac-qwgszfx-shard-00-01.kocor7p.mongodb.net:27017", ReasonChanged: "Heartbeat", State: "Disconnected", ServerVersion: , TopologyVersion: , Type: "Unknown", HeartbeatException: "MongoDB.Driver.MongoConnectionException: An exception occurred while opening a connection to the server.
+ ---> System.Security.Authentication.AuthenticationException: Authentication failed, see inner exception.
+ ---> System.ComponentModel.Win32Exception (0x80090304): The Local Security Authority cannot be contacted
+   --- End of inner exception stack trace ---
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.AuthenticateAsClient(SslClientAuthenticationOptions sslClientAuthenticationOptions)
+   at MongoDB.Driver.Core.Connections.SslStreamFactory.CreateStream(EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelper(OperationContext operationContext)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelper(OperationContext operationContext)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.Open(OperationContext operationContext)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.InitializeConnection(OperationContext operationContext)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.Heartbeat(CancellationToken cancellationToken)", LastHeartbeatTimestamp: "2025-09-25T05:15:48.5555677Z", LastUpdateTimestamp: "2025-09-25T05:15:48.5555679Z" }, { ServerId: "{ ClusterId : 1, EndPoint : "Unspecified/ac-qwgszfx-shard-00-02.kocor7p.mongodb.net:27017" }", EndPoint: "Unspecified/ac-qwgszfx-shard-00-02.kocor7p.mongodb.net:27017", ReasonChanged: "Heartbeat", State: "Disconnected", ServerVersion: , TopologyVersion: , Type: "Unknown", HeartbeatException: "MongoDB.Driver.MongoConnectionException: An exception occurred while opening a connection to the server.
+ ---> System.Security.Authentication.AuthenticationException: Authentication failed, see inner exception.
+ ---> System.ComponentModel.Win32Exception (0x80090304): The Local Security Authority cannot be contacted
+   --- End of inner exception stack trace ---
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](Boolean receiveFirst, Byte[] reAuthenticationData, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.ProcessAuthenticationWithTelemetryAsync(Boolean isAsync, CancellationToken cancellationToken)
+   at System.Net.Security.SslStream.AuthenticateAsClient(SslClientAuthenticationOptions sslClientAuthenticationOptions)
+   at MongoDB.Driver.Core.Connections.SslStreamFactory.CreateStream(EndPoint endPoint, CancellationToken cancellationToken)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelper(OperationContext operationContext)
+   --- End of inner exception stack trace ---
+   at MongoDB.Driver.Core.Connections.BinaryConnection.OpenHelper(OperationContext operationContext)
+   at MongoDB.Driver.Core.Connections.BinaryConnection.Open(OperationContext operationContext)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.InitializeConnection(OperationContext operationContext)
+   at MongoDB.Driver.Core.Servers.ServerMonitor.Heartbeat(CancellationToken cancellationToken)", LastHeartbeatTimestamp: "2025-09-25T05:15:48.6366408Z", LastUpdateTimestamp: "2025-09-25T05:15:48.6366410Z" }] }.
+   at MongoDB.Driver.Core.Clusters.Cluster.SelectServerAsync(OperationContext operationContext, IServerSelector selector)
+   at MongoDB.Driver.Core.Clusters.IClusterExtensions.SelectServerAndPinIfNeededAsync(IClusterInternal cluster, OperationContext operationContext, ICoreSessionHandle session, IServerSelector selector, IReadOnlyCollection`1 deprioritizedServers)
+   at MongoDB.Driver.Core.Bindings.ReadPreferenceBinding.GetReadChannelSourceAsync(OperationContext operationContext, IReadOnlyCollection`1 deprioritizedServers)
+   at MongoDB.Driver.Core.Operations.RetryableReadContext.AcquireOrReplaceChannelAsync(OperationContext operationContext, IReadOnlyCollection`1 deprioritizedServers)
+   at MongoDB.Driver.Core.Operations.RetryableReadContext.CreateAsync(OperationContext operationContext, IReadBinding binding, Boolean retryRequested)
+   at MongoDB.Driver.Core.Operations.FindOperation`1.ExecuteAsync(OperationContext operationContext, IReadBinding binding)
+   at MongoDB.Driver.OperationExecutor.ExecuteReadOperationAsync[TResult](OperationContext operationContext, IClientSessionHandle session, IReadOperation`1 operation, ReadPreference readPreference, Boolean allowChannelPinning)
+   at MongoDB.Driver.MongoCollectionImpl`1.ExecuteReadOperationAsync[TResult](IClientSessionHandle session, IReadOperation`1 operation, ReadPreference explicitReadPreference, Nullable`1 timeout, CancellationToken cancellationToken)
+   at MongoDB.Driver.MongoCollectionImpl`1.FindAsync[TProjection](FilterDefinition`1 filter, FindOptions`2 options, CancellationToken cancellationToken)
+   at MongoDB.Driver.IAsyncCursorSourceExtensions.FirstOrDefaultAsync[TDocument](IAsyncCursorSource`1 source, CancellationToken cancellationToken)
+   at Repository.StudentRepository.GetAsync(String id) in C:\Users\ShriLakshmiM\source\repos\StudentManagement\Repository\StudentRepository.cs:line 54
+   at StudentServices.StudentService.GetAsync(String id) in C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement.Services\StudentService.cs:line 44
+   at StudentManagement.Controllers.StudentsController.Get(String id) in C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement\Controllers\StudentsController.cs:line 51
+   at lambda_method36(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-09-25 05:36:10Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-25 05:36:10Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-25 05:36:10Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-25 05:36:10Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-25 05:36:10Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-25 05:36:40Z [Information] StudentManagement.Controllers.AuthController: Login attempt for user: admin
+2025-09-25 05:36:40Z [Warning] StudentManagement.Controllers.AuthController: Login failed for user: admin
+2025-09-25 05:37:13Z [Information] StudentManagement.Controllers.AuthController: Login attempt for user: admin
+2025-09-25 05:37:13Z [Information] StudentManagement.Controllers.AuthController: Login successful for user: admin
+2025-09-25 05:37:13Z [Information] StudentManagement.Controllers.AuthController: JWT token generated for user: admin

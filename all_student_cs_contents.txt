@@ -1,0 +1,1330 @@
+===== Models\IStudentStoreDatabaseSettings.cs =====
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+namespace StudentModels
+{
+    public interface IStudentStoreDatabaseSettings
+    {
+        string StudentCoursesCollectionName { get; set; }
+        string ConnectionString { get; set; }
+        string DatabaseName { get; set; }
+    }
+}
+===== Models\Student.cs =====
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.Linq;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+namespace StudentModels
+{
+    /// <summary>
+    /// Represents a student entity in the MongoDB database.
+    /// Includes validation attributes and implements IValidatableObject
+    /// for custom validations (like course content validation).
+    /// </summary>
+    [BsonIgnoreExtraElements] // Ignore extra fields in MongoDB document that are not in this class
+    public class Student : IValidatableObject
+    {
+        /// <summary>
+        /// Unique identifier for the student.
+        /// Stored as a MongoDB ObjectId but represented as a string in C#.
+        /// </summary>
+        [BsonId] // Primary key in MongoDB
+        [BsonRepresentation(BsonType.ObjectId)] // Store as ObjectId in DB but string in code
+        public string Id { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Full name of the student.
+        /// Required and cannot exceed 100 characters.
+        /// </summary>
+        [BsonElement("name")] // Maps to "name" field in MongoDB
+        [Required(ErrorMessage = "Name is required.")] // Validation: required
+        [MaxLength(100, ErrorMessage = "Name cannot exceed 100 characters.")] // Validation: max length
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Indicates whether the student has graduated.
+        /// </summary>
+        [BsonElement("graduated")] // Maps to "graduated" field
+        public bool IsGraduated { get; set; }
+
+        /// <summary>
+        /// Array of courses the student is enrolled in.
+        /// Must contain at least one course and cannot contain empty strings.
+        /// </summary>
+        [BsonElement("courses")] // Maps to "courses" field
+        [MinLength(1, ErrorMessage = "At least one course is required.")] // Ensure at least one course
+        public string[] Courses { get; set; } = Array.Empty<string>(); // Initialize to avoid null
+
+        /// <summary>
+        /// Gender of the student.
+        /// Must be "Male", "Female", or "Other".
+        /// </summary>
+        [BsonElement("gender")] // Maps to "gender" field
+        [Required(ErrorMessage = "Gender is required.")] // Cannot be null or empty
+        [RegularExpression("Male|Female|Other", ErrorMessage = "Gender must be Male, Female, or Other.")] // Allowed values
+        public string Gender { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Age of the student.
+        /// Must be between 1 and 120.
+        /// </summary>
+        [BsonElement("age")] // Maps to "age" field
+        [Range(1, 120, ErrorMessage = "Age must be between 1 and 120.")] // Range validation
+        public int Age { get; set; }
+
+        /// <summary>
+        /// Custom validation logic.
+        /// Checks that Courses array is not null, not empty, and does not contain blank strings.
+        /// Called automatically by ASP.NET Core when model validation occurs.
+        /// </summary>
+        /// <param name="validationContext">Context for validation</param>
+        /// <returns>A list of validation errors (if any)</returns>
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            // Validate that the Courses array is not null or empty
+            if (Courses == null || Courses.Length == 0)
+            {
+                yield return new ValidationResult(
+                    "At least one course is required.",
+                    new[] { nameof(Courses) });
+            }
+
+            // Validate that no course is empty or whitespace
+            if (Courses != null && Courses.Any(c => string.IsNullOrWhiteSpace(c)))
+            {
+                yield return new ValidationResult(
+                    "Courses cannot contain empty or whitespace values.",
+                    new[] { nameof(Courses) });
+            }
+        }
+    }
+}
+
+===== Models\StudentStoreDatabaseSettings.cs =====
+﻿//using Models;
+
+using StudentModels;
+
+namespace StudentModels
+{
+    public class StudentStoreDatabaseSettings : IStudentStoreDatabaseSettings
+    {
+        public string StudentCoursesCollectionName { get; set; } = String.Empty;
+        public string ConnectionString { get; set; } = String.Empty;
+        public string DatabaseName { get; set; } = String.Empty;
+
+    }
+}
+===== Models\SimpleFileLogger.cs =====
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.Extensions.Logging;
+
+namespace StudentModels
+{
+    public class SimpleFileLogger : ILogger
+    {
+        private readonly string _filePath;
+        private readonly string _categoryName;
+        private static readonly object _lock = new();
+
+        public SimpleFileLogger(string categoryName, string filePath)
+        {
+            _categoryName = categoryName;
+            _filePath = filePath;
+        }
+
+        public IDisposable BeginScope<TState>(TState state) => null!;
+
+        public bool IsEnabled(LogLevel logLevel) =>
+            logLevel >= LogLevel.Information;
+
+        public void Log<TState>(LogLevel logLevel, EventId eventId,
+            TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+        {
+            if (!IsEnabled(logLevel)) return;
+
+            var message = $"{DateTime.UtcNow:u} [{logLevel}] {_categoryName}: {formatter(state, exception)}";
+            if (exception != null)
+                message += Environment.NewLine + exception;
+
+            lock (_lock)
+            {
+                File.AppendAllText(_filePath, message + Environment.NewLine);
+            }
+        }
+    }
+}
+
+===== Models\SimpleFileLoggerProvider.cs =====
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+
+namespace StudentModels
+{
+    public class SimpleFileLoggerProvider : ILoggerProvider
+
+    {
+
+        private readonly string _filePath;
+
+        public SimpleFileLoggerProvider(string filePath)
+
+        {
+
+            _filePath = filePath;
+
+        }
+
+        public ILogger CreateLogger(string categoryName)
+
+        {
+
+            return new SimpleFileLogger(categoryName, _filePath);
+
+        }
+
+        public void Dispose()
+
+        {
+
+        }
+
+    }
+
+}
+
+===== Repository\IStudentRepository.cs =====
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using StudentModels;
+
+namespace Repository
+{
+    /// <summary>
+    /// Defines the contract for Student repository operations.
+    /// This interface provides asynchronous CRUD operations for the Student entity.
+    /// </summary>
+    public interface IStudentRepository
+    {
+        /// <summary>
+        /// Retrieves all students from the database asynchronously.
+        /// </summary>
+        /// <returns>A list of all <see cref="Student"/> objects.</returns>
+        Task<List<Student>> GetAsync();
+
+        /// <summary>
+        /// Retrieves a single student by its unique ID asynchronously.
+        /// </summary>
+        /// <param name="id">The unique ID of the student.</param>
+        /// <returns>The <see cref="Student"/> object if found; otherwise, null.</returns>
+        Task<Student?> GetAsync(string id);
+
+        /// <summary>
+        /// Creates a new student in the database asynchronously.
+        /// </summary>
+        /// <param name="student">The <see cref="Student"/> object to be created.</param>
+        /// <returns>The created <see cref="Student"/> object.</returns>
+        Task<Student> CreateAsync(Student student);
+
+        /// <summary>
+        /// Updates an existing student in the database asynchronously.
+        /// </summary>
+        /// <param name="id">The unique ID of the student to update.</param>
+        /// <param name="student">The updated <see cref="Student"/> object.</param>
+        Task UpdateAsync(string id, Student student);
+
+        /// <summary>
+        /// Deletes a student from the database asynchronously by its ID.
+        /// </summary>
+        /// <param name="id">The unique ID of the student to delete.</param>
+        Task RemoveAsync(string id);
+    }
+}
+
+===== Repository\StudentRepository.cs =====
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using MongoDB.Driver;
+using StudentModels;
+
+namespace Repository
+{
+    /// <summary>
+    /// Repository implementation for managing Student entities in MongoDB.
+    /// Handles CRUD operations using the <see cref="IMongoCollection{Student}"/>.
+    /// </summary>
+    public class StudentRepository : IStudentRepository
+    {
+        private readonly IMongoCollection<Student> _students;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StudentRepository"/> class.
+        /// </summary>
+        /// <param name="settings">Database settings including collection name and database name.</param>
+        /// <param name="mongoClient">The MongoDB client to access the database.</param>
+        public StudentRepository(IStudentStoreDatabaseSettings settings, IMongoClient mongoClient)
+        {
+            var database = mongoClient.GetDatabase(settings.DatabaseName);
+            _students = database.GetCollection<Student>(settings.StudentCoursesCollectionName);
+        }
+
+        /// <summary>
+        /// Inserts a new student into the database asynchronously.
+        /// </summary>
+        /// <param name="student">The <see cref="Student"/> object to insert.</param>
+        /// <returns>The inserted <see cref="Student"/> object.</returns>
+        public async Task<Student> CreateAsync(Student student)
+        {
+            await _students.InsertOneAsync(student);
+            return student;
+        }
+
+        /// <summary>
+        /// Retrieves all students from the database asynchronously.
+        /// </summary>
+        /// <returns>A list of all <see cref="Student"/> objects.</returns>
+        public async Task<List<Student>> GetAsync()
+        {
+            return await _students.Find(student => true).ToListAsync();
+        }
+
+        /// <summary>
+        /// Retrieves a single student by its ID asynchronously.
+        /// </summary>
+        /// <param name="id">The unique ID of the student.</param>
+        /// <returns>The <see cref="Student"/> object if found; otherwise, null.</returns>
+        public async Task<Student?> GetAsync(string id)
+        {
+            return await _students.Find(student => student.Id == id).FirstOrDefaultAsync();
+        }
+
+        /// <summary>
+        /// Deletes a student from the database by its ID asynchronously.
+        /// </summary>
+        /// <param name="id">The unique ID of the student to delete.</param>
+        public async Task RemoveAsync(string id)
+        {
+            await _students.DeleteOneAsync(student => student.Id == id);
+        }
+
+        /// <summary>
+        /// Updates an existing student in the database asynchronously.
+        /// </summary>
+        /// <param name="id">The unique ID of the student to update.</param>
+        /// <param name="student">The updated <see cref="Student"/> object.</param>
+        public async Task UpdateAsync(string id, Student student)
+        {
+            await _students.ReplaceOneAsync(s => s.Id == id, student);
+        }
+    }
+}
+
+===== StudentManagement.Services\IStudentService.cs =====
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using StudentModels;
+
+namespace StudentServices
+{
+    /// <summary>
+    /// Defines the contract for student service operations.
+    /// Provides asynchronous CRUD operations for managing students.
+    /// </summary>
+    public interface IStudentService
+    {
+        /// <summary>
+        /// Retrieves all students asynchronously.
+        /// </summary>
+        /// <returns>List of <see cref="Student"/> objects.</returns>
+        Task<List<Student>> GetAsync();
+
+        /// <summary>
+        /// Retrieves a student by ID asynchronously.
+        /// </summary>
+        /// <param name="id">The unique ID of the student.</param>
+        /// <returns>The <see cref="Student"/> object if found; otherwise, null.</returns>
+        Task<Student?> GetAsync(string id);
+
+        /// <summary>
+        /// Creates a new student asynchronously.
+        /// </summary>
+        /// <param name="student">The <see cref="Student"/> object to create.</param>
+        /// <returns>The created <see cref="Student"/> object.</returns>
+        Task<Student> CreateAsync(Student student);
+
+        /// <summary>
+        /// Updates an existing student asynchronously.
+        /// </summary>
+        /// <param name="id">The unique ID of the student to update.</param>
+        /// <param name="student">The updated <see cref="Student"/> object.</param>
+        Task UpdateAsync(string id, Student student);
+
+        /// <summary>
+        /// Removes a student asynchronously by ID.
+        /// </summary>
+        /// <param name="id">The unique ID of the student to remove.</param>
+        Task RemoveAsync(string id);
+
+        // The following methods are currently not implemented
+        Task DeleteStudentAsync(string id);
+        Task GetStudentByIdAsync(string id);
+        Task UpdateStudentAsync(string id, Student student);
+    }
+}
+
+===== StudentManagement.Services\StudentService.cs =====
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using StudentModels;
+using Repository;
+
+namespace StudentServices
+{
+    /// <summary>
+    /// Implements the <see cref="IStudentService"/> interface.
+    /// Handles business logic and interacts with the <see cref="IStudentRepository"/>.
+    /// </summary>
+    public class StudentService : IStudentService
+    {
+        private readonly IStudentRepository _studentRepository;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="StudentService"/>.
+        /// </summary>
+        /// <param name="studentRepository">Repository instance for student operations.</param>
+        public StudentService(IStudentRepository studentRepository)
+        {
+            _studentRepository = studentRepository;
+        }
+
+        /// <inheritdoc/>
+        public async Task<List<Student>> GetAsync()
+        {
+            try
+            {
+                return await _studentRepository.GetAsync();
+            }
+            catch
+            {
+                // Exception will be logged in controller
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<Student?> GetAsync(string id)
+        {
+            try
+            {
+                return await _studentRepository.GetAsync(id);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<Student> CreateAsync(Student student)
+        {
+            try
+            {
+                return await _studentRepository.CreateAsync(student);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task UpdateAsync(string id, Student student)
+        {
+            try
+            {
+                await _studentRepository.UpdateAsync(id, student);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task RemoveAsync(string id)
+        {
+            try
+            {
+                await _studentRepository.RemoveAsync(id);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        // Not implemented methods
+        public Task DeleteStudentAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task GetStudentByIdAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateStudentAsync(string id, Student student)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+
+===== StudentManagement\Program.cs =====
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using StudentModels;
+using StudentServices;
+using Repository;
+using System.Net;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
+
+// Ensure TLS 1.2 for secure MongoDB connections
+ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// ================== Configure Database ==================
+
+// Load Student DB settings from appsettings.json
+builder.Services.Configure<StudentStoreDatabaseSettings>(
+    builder.Configuration.GetSection(nameof(StudentStoreDatabaseSettings))
+);
+
+// Register DB settings as singleton for dependency injection
+builder.Services.AddSingleton<IStudentStoreDatabaseSettings>(
+    sp => sp.GetRequiredService<IOptions<StudentStoreDatabaseSettings>>().Value
+);
+
+// Register MongoDB client (singleton � one connection per app)
+builder.Services.AddSingleton<IMongoClient>(
+    s => new MongoClient(builder.Configuration.GetValue<string>("StudentStoreDatabaseSettings:ConnectionString"))
+);
+
+// ================== Logging ==================
+builder.Services.AddLogging();
+builder.Logging.AddProvider(new SimpleFileLoggerProvider("Logger/logs.txt")); // custom file logger
+
+// ================== Repository & Service ==================
+
+// Register repository and service for dependency injection
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+
+// ================== JWT Authentication ==================
+
+// Read JWT settings from appsettings.json
+var jwtKey = builder.Configuration["Jwt:Key"];
+var jwtIssuer = builder.Configuration["Jwt:Issuer"];
+var jwtAudience = builder.Configuration["Jwt:Audience"];
+
+// Configure Authentication with JWT Bearer
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtIssuer,
+            ValidAudience = jwtAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+        };
+    });
+
+// Enable role-based authorization
+builder.Services.AddAuthorization();
+
+// ================== Controllers & Swagger ==================
+builder.Services.AddControllers();
+
+// Add Swagger/OpenAPI with JWT support
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "StudentManagement API",
+        Version = "v1",
+        Description = "API for managing students with JWT authentication and role-based access"
+    });
+
+    // JWT Bearer definition in Swagger
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+var app = builder.Build();
+
+// ================== HTTP Request Pipeline ==================
+
+// Enable Swagger in development
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "StudentManagement API v1");
+        c.RoutePrefix = string.Empty; // Swagger at root
+    });
+}
+
+// Redirect HTTP to HTTPS
+app.UseHttpsRedirection();
+
+// Enable authentication & authorization middleware
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Map all controllers
+app.MapControllers();
+
+// Run the application
+app.Run();
+
+===== StudentManagement\Controllers\AuthController.cs =====
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+
+namespace StudentManagement.Controllers
+{
+    /// <summary>
+    /// Authentication controller for login and JWT token generation.
+    /// </summary>
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AuthController : ControllerBase
+    {
+        private readonly IConfiguration _config;
+
+        public AuthController(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        /// <summary>
+        /// Login endpoint. Accepts username/password and returns JWT token if valid.
+        /// </summary>
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginRequest request)
+        {
+            // Dummy users with roles
+            var users = new Dictionary<string, (string Password, string Role)>
+            {
+                { "admin", ("admin123", "Admin") },
+                { "moderator", ("mod123", "Moderator") },
+                { "reader", ("read123", "ReadOnly") }
+            };
+
+            // Validate credentials
+            if (users.TryGetValue(request.Username.ToLower(), out var user) && user.Password == request.Password)
+            {
+                // Generate JWT token
+                var token = GenerateJwtToken(request.Username, user.Role);
+                return Ok(new { token });
+            }
+
+            return Unauthorized("Invalid username or password");
+        }
+
+        /// <summary>
+        /// Generate JWT token with role claim.
+        /// </summary>
+        private string GenerateJwtToken(string username, string role)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.Role, role)
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(1),
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+    }
+
+    /// <summary>
+    /// DTO for login request
+    /// </summary>
+    public class LoginRequest
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+}
+
+===== StudentManagement\Controllers\StudentsController.cs =====
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
+using StudentModels;
+using StudentServices;
+
+namespace StudentManagement.Controllers
+{
+    /// <summary>
+    /// Controller for managing student CRUD operations
+    /// </summary>
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize] // Require JWT for all endpoints
+    public class StudentsController : ControllerBase
+    {
+        private readonly IStudentService _studentService;
+        private readonly ILogger<StudentsController> _logger;
+
+        public StudentsController(IStudentService studentService, ILogger<StudentsController> logger)
+        {
+            _studentService = studentService;
+            _logger = logger;
+        }
+
+        private bool IsValidObjectId(string id) => ObjectId.TryParse(id, out _);
+
+        // GET: api/students
+        [HttpGet]
+        public async Task<ActionResult<List<Student>>> Get()
+        {
+            try
+            {
+                var students = await _studentService.GetAsync();
+                return Ok(students);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching all students");
+                return StatusCode(500, "Could not fetch students");
+            }
+        }
+
+        // GET: api/students/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Student>> Get(string id)
+        {
+            if (!IsValidObjectId(id))
+                return BadRequest("Invalid student ID");
+
+            var student = await _studentService.GetAsync(id);
+            if (student == null) return NotFound($"Student {id} not found");
+
+            return Ok(student);
+        }
+
+        // POST: api/students
+        [HttpPost]
+        [Authorize(Roles = "Admin,Moderator")]
+        public async Task<ActionResult<Student>> Create([FromBody] Student student)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var created = await _studentService.CreateAsync(student);
+            return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
+        }
+
+        // PUT: api/students/{id}
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,Moderator")]
+        public async Task<IActionResult> Update(string id, [FromBody] Student student)
+        {
+            if (!IsValidObjectId(id))
+                return BadRequest("Invalid student ID");
+
+            var existing = await _studentService.GetAsync(id);
+            if (existing == null) return NotFound();
+
+            await _studentService.UpdateAsync(id, student);
+            return NoContent();
+        }
+
+        // DELETE: api/students/{id}
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Remove(string id)
+        {
+            if (!IsValidObjectId(id))
+                return BadRequest("Invalid student ID");
+
+            var existing = await _studentService.GetAsync(id);
+            if (existing == null) return NotFound();
+
+            await _studentService.RemoveAsync(id);
+            return NoContent();
+        }
+    }
+}
+
+===== Validator\StudentCreateDtoValidator.cs =====
+﻿using FluentValidation;
+using StudentModels;
+
+namespace Validator // <- add a namespace
+{
+    public class StudentCreateDtoValidator : AbstractValidator<StudentCreateDto>
+    {
+        public StudentCreateDtoValidator()
+        {
+            RuleFor(s => s.Name).NotEmpty().MaximumLength(100);
+            RuleFor(s => s.Age).InclusiveBetween(1, 120);
+            RuleFor(s => s.Gender).NotEmpty().Must(g => new[] { "Male", "Female", "Other" }.Contains(g));
+            RuleFor(s => s.Courses).NotEmpty();
+            When(s => s.Address != null, () =>
+            {
+                RuleFor(s => s.Address.Street).NotEmpty();
+                RuleFor(s => s.Address.City).NotEmpty();
+               
+            });
+        }
+    }
+}
+
+===== Controller\StudentController.cs =====
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Controller
+using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Mvc;
+using Models;
+using Services;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+namespace StudentManagement.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class StudentsController : ControllerBase
+    {
+        private readonly IStudentService studentService;
+        public StudentsController(IStudentService studentService)
+        {
+            this.studentService = studentService;
+        }
+        // GET: api/<StudentsController>
+        [HttpGet]
+        public ActionResult<List<Student>> Get()
+        {
+            return studentService.Get();
+        }
+
+        // GET api/<StudentsController>/5
+        [HttpGet("{id}")]
+        public ActionResult<Student> Get(string id)
+        {
+            var student = studentService.Get(id);
+            if (student == null)
+            {
+                return NotFound($"Student with Id={id} not found");
+            }
+            return student;
+        }
+
+        // POST api/<StudentsController>
+        [HttpPost]
+        public ActionResult<Student> Post([FromBody] Student student)
+
+        {
+            studentService.Create(student);
+            return CreatedAtAction(nameof(Get), new { id = student.Id }, student);
+        }
+
+        // PUT api/<StudentsController>/5
+        [HttpPut("{id}")]
+        public ActionResult Put(string id, [FromBody] Student student)
+        {
+            var existingStudent = studentService.Get(id);
+            if (existingStudent == null)
+            {
+                return NotFound($"Student with Id={id} not found");
+            }
+            studentService.Update(id, student);
+            return NoContent();
+        }
+
+        // DELETE api/<StudentsController>/5
+        [HttpDelete("{id}")]
+        public ActionResult Delete(string id)
+        {
+            var student = studentService.Get(id);
+            if (student == null)
+            {
+                return NotFound($"Student with Id={id} not found");
+            }
+            studentService.Remove(student.Id);
+            return Ok($"Student with Id={id} deleted");
+        }
+    }
+}
+
+
+===== Models.Test\ModelsTest.cs =====
+using StudentModels;
+using Xunit;
+
+namespace StudentModels.Test
+{
+    public class ModelsTest
+    {
+        [Fact]
+        public void Student_Properties_SetAndGet()
+        {
+            var student = new Student
+            {
+                Id = "507f1f77bcf86cd799439011",
+                Name = "Lakshmi",
+                IsGraduated = true,
+                Courses = new[] { "Math", "Science" },
+                Gender = "Female",
+                Age = 22
+            };
+
+            Assert.Equal("507f1f77bcf86cd799439011", student.Id);
+            Assert.Equal("Lakshmi", student.Name);
+            Assert.True(student.IsGraduated);
+            Assert.Contains("Math", student.Courses);
+            Assert.Equal("Female", student.Gender);
+            Assert.Equal(22, student.Age);
+        }
+    }
+}
+===== Repository.Test\RepositoryTest.cs =====
+using Xunit;
+using FluentAssertions;
+using Mongo2Go;
+using MongoDB.Driver;
+using StudentModels;
+using System;
+using System.Threading.Tasks;
+using Repository;
+
+namespace StudentManagement.Tests
+{
+    public class StudentRepositoryTests : IDisposable
+    {
+        private readonly MongoDbRunner _mongoRunner;
+        private readonly IMongoClient _client;
+        private readonly StudentRepository _repository;
+
+        public StudentRepositoryTests()
+        {
+            _mongoRunner = MongoDbRunner.Start();
+            _client = new MongoClient(_mongoRunner.ConnectionString);
+
+            var settings = new StudentStoreDatabaseSettings
+            {
+                DatabaseName = "TestDB",
+                StudentCoursesCollectionName = "Students"
+            };
+
+            _repository = new StudentRepository(settings, _client);
+        }
+
+        [Fact]
+        public async Task CreateAsync_ShouldInsertStudent()
+        {
+            var student = new Student { Name = "Test Student", Gender = "Male", Age = 20, IsGraduated = false, Courses = new[] { "Math" } };
+            var result = await _repository.CreateAsync(student);
+
+            result.Should().NotBeNull();
+            result.Id.Should().NotBeNullOrEmpty();
+
+            var fetched = await _repository.GetAsync(student.Id);
+            fetched.Should().NotBeNull();
+            fetched!.Name.Should().Be("Test Student");
+        }
+
+        [Fact]
+        public async Task UpdateAsync_ShouldReplaceStudent()
+        {
+            var student = new Student { Name = "Before Update", Gender = "Male", Age = 22, IsGraduated = false, Courses = new[] { "Science" } };
+            await _repository.CreateAsync(student);
+
+            student.Name = "After Update";
+            await _repository.UpdateAsync(student.Id, student);
+
+            var fetched = await _repository.GetAsync(student.Id);
+            fetched.Should().NotBeNull();
+            fetched!.Name.Should().Be("After Update");
+        }
+
+        [Fact]
+        public async Task RemoveAsync_ShouldDeleteStudent()
+        {
+            var student = new Student { Name = "To Delete", Gender = "Female", Age = 30, IsGraduated = true, Courses = new[] { "History" } };
+            await _repository.CreateAsync(student);
+
+            await _repository.RemoveAsync(student.Id);
+
+            var fetched = await _repository.GetAsync(student.Id);
+            fetched.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task GetAsync_ShouldReturnAllStudents()
+        {
+            var student1 = new Student { Name = "S1", Gender = "Male", Age = 18, IsGraduated = false, Courses = new[] { "English" } };
+            var student2 = new Student { Name = "S2", Gender = "Female", Age = 21, IsGraduated = true, Courses = new[] { "Physics" } };
+
+            await _repository.CreateAsync(student1);
+            await _repository.CreateAsync(student2);
+
+            var all = await _repository.GetAsync();
+            all.Should().NotBeNull();
+            all.Should().HaveCount(2);
+        }
+
+        public void Dispose()
+        {
+            _mongoRunner.Dispose();
+        }
+    }
+}
+
+===== Services.Test\ServicesTest.cs =====
+using Xunit;
+using Moq;
+using FluentAssertions;
+using StudentModels;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using StudentServices;
+using Repository;
+
+namespace StudentManagement.Tests
+{
+    public class StudentServiceTests
+    {
+        private readonly Mock<IStudentRepository> _repoMock;
+        private readonly StudentService _service;
+
+        public StudentServiceTests()
+        {
+            _repoMock = new Mock<IStudentRepository>();
+            _service = new StudentService(_repoMock.Object);
+        }
+
+        [Fact]
+        public async Task CreateAsync_ShouldReturnCreatedStudent()
+        {
+            var student = new Student { Name = "John Doe", Age = 25, Gender = "Male", IsGraduated = false };
+            _repoMock.Setup(r => r.CreateAsync(It.IsAny<Student>())).ReturnsAsync(student);
+
+            var result = await _service.CreateAsync(student);
+
+            result.Should().NotBeNull();
+            result.Name.Should().Be("John Doe");
+        }
+
+        [Fact]
+        public async Task GetAsyncById_ShouldReturnStudent_WhenExists()
+        {
+            var student = new Student { Id = "1", Name = "Jane" };
+            _repoMock.Setup(r => r.GetAsync("1")).ReturnsAsync(student);
+
+            var result = await _service.GetAsync("1");
+
+            result.Should().NotBeNull();
+            result!.Name.Should().Be("Jane");
+        }
+
+        [Fact]
+        public async Task GetAsyncById_ShouldReturnNull_WhenNotExists()
+        {
+            _repoMock.Setup(r => r.GetAsync("2")).ReturnsAsync((Student?)null);
+
+            var result = await _service.GetAsync("2");
+
+            result.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task UpdateAsync_ShouldCallRepository()
+        {
+            var student = new Student { Id = "1", Name = "Updated", Age = 20, Gender = "Male" };
+            _repoMock.Setup(r => r.UpdateAsync("1", student)).Returns(Task.CompletedTask).Verifiable();
+
+            await _service.UpdateAsync("1", student);
+
+            _repoMock.Verify(r => r.UpdateAsync("1", student), Times.Once);
+        }
+
+        [Fact]
+        public async Task RemoveAsync_ShouldCallRepository()
+        {
+            _repoMock.Setup(r => r.RemoveAsync("1")).Returns(Task.CompletedTask).Verifiable();
+
+            await _service.RemoveAsync("1");
+
+            _repoMock.Verify(r => r.RemoveAsync("1"), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetAll_ShouldReturnList()
+        {
+            var students = new List<Student> { new Student { Id = "1", Name = "Test" } };
+            _repoMock.Setup(r => r.GetAsync()).ReturnsAsync(students);
+
+            var result = await _service.GetAsync();
+
+            result.Should().HaveCount(1);
+            result[0].Name.Should().Be("Test");
+        }
+    }
+}
+
+===== StudentManagement.Tests\StudentServiceTests.cs =====
+﻿using System;
+using Models;
+using Services;
+using Models;
+using Services;
+using Xunit;
+
+namespace StudentManagement.Tests
+{
+    public class StudentServiceTests
+    {
+        [Fact]
+        public void PrintStudent_ShouldNotThrowException()
+        {
+            // Arrange
+            var student = new Student { Id = 1, Name = "Lakshmi" };
+            var service = new StudentService();
+
+            // Act
+            Exception exception = Record.Exception(() => service.PrintStudent(student));
+
+            // Assert
+            Assert.Null(exception);
+        }
+    }
+}
+
+===== StudentManagement.Tests\UnitTest1.cs =====
+namespace StudentManagement.Tests
+{
+    public class UnitTest1
+    {
+        [Fact]
+        public void Test1()
+        {
+
+        }
+    }
+}
+===== StudentManagment.API.Test\StudentManagementAPITest.cs =====
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using StudentModels;
+using StudentServices;
+using StudentManagement.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using Xunit;
+using Microsoft.Extensions.Logging;
+using FluentAssertions;
+
+namespace StudentManagement.Test
+{
+    public class StudentManagementAPITest
+    {
+        private StudentsController GetController(Mock<IStudentService> mockService)
+        {
+            var mockLogger = new Mock<ILogger<StudentsController>>();
+            return new StudentsController(mockService.Object, mockLogger.Object);
+        }
+
+        private const string ValidObjectId = "507f1f77bcf86cd799439011"; // valid MongoDB ObjectId
+
+        [Fact]
+        public async Task Get_ReturnsListOfStudents()
+        {
+            var mockService = new Mock<IStudentService>();
+            mockService.Setup(s => s.GetAsync()).ReturnsAsync(new List<Student>
+            {
+                new Student { Id = ValidObjectId, Name = "Lakshmi", Age = 20, Gender = "Female", IsGraduated = false, Courses = new[] { "Math" } }
+            });
+
+            var controller = GetController(mockService);
+
+            var actionResult = await controller.Get();
+
+            var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
+            var students = Assert.IsType<List<Student>>(okResult.Value);
+            students.Should().HaveCount(1);
+            students[0].Name.Should().Be("Lakshmi");
+        }
+
+        [Fact]
+        public async Task GetById_ReturnsStudent_WhenExists()
+        {
+            var mockService = new Mock<IStudentService>();
+            mockService.Setup(s => s.GetAsync(ValidObjectId)).ReturnsAsync(
+                new Student { Id = ValidObjectId, Name = "Lakshmi", Age = 20, Gender = "Female", IsGraduated = false, Courses = new[] { "Math" } }
+            );
+
+            var controller = GetController(mockService);
+
+            var actionResult = await controller.Get(ValidObjectId);
+
+            var okResult = Assert.IsType<OkObjectResult>(actionResult.Result);
+            var student = Assert.IsType<Student>(okResult.Value);
+            student.Name.Should().Be("Lakshmi");
+        }
+
+        [Fact]
+        public async Task GetById_ReturnsNotFound_WhenNotExists()
+        {
+            var mockService = new Mock<IStudentService>();
+            mockService.Setup(s => s.GetAsync(ValidObjectId)).ReturnsAsync((Student?)null);
+
+            var controller = GetController(mockService);
+
+            var actionResult = await controller.Get(ValidObjectId);
+
+            Assert.IsType<NotFoundObjectResult>(actionResult.Result); // updated
+        }
+
+        [Fact]
+        public async Task Create_ReturnsCreatedStudent()
+        {
+            var student = new Student { Id = ValidObjectId, Name = "Lakshmi", Age = 20, Gender = "Female", IsGraduated = false, Courses = new[] { "Math" } };
+            var mockService = new Mock<IStudentService>();
+            mockService.Setup(s => s.CreateAsync(It.IsAny<Student>())).ReturnsAsync(student);
+
+            var controller = GetController(mockService);
+
+            var actionResult = await controller.Create(student);
+
+            var createdResult = Assert.IsType<CreatedAtActionResult>(actionResult.Result);
+            var returnedStudent = Assert.IsType<Student>(createdResult.Value);
+            returnedStudent.Name.Should().Be("Lakshmi");
+        }
+
+        [Fact]
+        public async Task Update_ReturnsNoContent_WhenStudentExists()
+        {
+            var student = new Student { Id = ValidObjectId, Name = "Updated", Age = 21, Gender = "Male", IsGraduated = false, Courses = new[] { "Math" } };
+            var mockService = new Mock<IStudentService>();
+            mockService.Setup(s => s.GetAsync(ValidObjectId)).ReturnsAsync(student);
+            mockService.Setup(s => s.UpdateAsync(ValidObjectId, student)).Returns(Task.CompletedTask);
+
+            var controller = GetController(mockService);
+
+            var result = await controller.Update(ValidObjectId, student);
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public async Task Update_ReturnsNotFound_WhenStudentDoesNotExist()
+        {
+            var student = new Student { Id = ValidObjectId, Name = "Updated" };
+            var mockService = new Mock<IStudentService>();
+            mockService.Setup(s => s.GetAsync(ValidObjectId)).ReturnsAsync((Student?)null);
+
+            var controller = GetController(mockService);
+
+            var result = await controller.Update(ValidObjectId, student);
+
+            Assert.IsType<NotFoundObjectResult>(result); // updated
+        }
+
+        [Fact]
+        public async Task Remove_ReturnsNoContent_WhenStudentExists()
+        {
+            var student = new Student { Id = ValidObjectId, Name = "To Delete", Age = 22, Gender = "Male", IsGraduated = false, Courses = new[] { "Science" } };
+            var mockService = new Mock<IStudentService>();
+            mockService.Setup(s => s.GetAsync(ValidObjectId)).ReturnsAsync(student);
+            mockService.Setup(s => s.RemoveAsync(ValidObjectId)).Returns(Task.CompletedTask);
+
+            var controller = GetController(mockService);
+
+            var result = await controller.Remove(ValidObjectId);
+
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public async Task Remove_ReturnsNotFound_WhenStudentDoesNotExist()
+        {
+            var mockService = new Mock<IStudentService>();
+            mockService.Setup(s => s.GetAsync(ValidObjectId)).ReturnsAsync((Student?)null);
+
+            var controller = GetController(mockService);
+
+            var result = await controller.Remove(ValidObjectId);
+
+            Assert.IsType<NotFoundObjectResult>(result); // updated
+        }
+    }
+}
+
