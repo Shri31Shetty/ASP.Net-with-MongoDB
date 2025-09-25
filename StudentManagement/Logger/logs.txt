@@ -765,3 +765,15 @@ System.TimeoutException: A timeout occurred after 30014ms selecting a server usi
 2025-09-25 05:37:13Z [Information] StudentManagement.Controllers.AuthController: Login attempt for user: admin
 2025-09-25 05:37:13Z [Information] StudentManagement.Controllers.AuthController: Login successful for user: admin
 2025-09-25 05:37:13Z [Information] StudentManagement.Controllers.AuthController: JWT token generated for user: admin
+2025-09-25 06:03:07Z [Information] Microsoft.Hosting.Lifetime: Now listening on: https://localhost:7297
+2025-09-25 06:03:07Z [Information] Microsoft.Hosting.Lifetime: Now listening on: http://localhost:5223
+2025-09-25 06:03:07Z [Information] Microsoft.Hosting.Lifetime: Application started. Press Ctrl+C to shut down.
+2025-09-25 06:03:07Z [Information] Microsoft.Hosting.Lifetime: Hosting environment: Development
+2025-09-25 06:03:07Z [Information] Microsoft.Hosting.Lifetime: Content root path: C:\Users\ShriLakshmiM\source\repos\StudentManagement\StudentManagement
+2025-09-25 06:03:26Z [Information] StudentManagement.Controllers.AuthController: Login attempt for user: admin
+2025-09-25 06:03:26Z [Information] StudentManagement.Controllers.AuthController: Login successful for user: admin
+2025-09-25 06:03:26Z [Information] StudentManagement.Controllers.AuthController: JWT token generated for user: admin
+2025-09-25 06:56:42Z [Information] StudentManagement.Controllers.StudentsController: Student with ID 68cbcb2bf134bca8799a4ffe deleted successfully.
+2025-09-25 06:56:53Z [Warning] StudentManagement.Controllers.StudentsController: Student with ID 68cbcb2bf134bca8799a4ffe not found
+2025-09-25 07:00:06Z [Information] StudentManagement.Controllers.StudentsController: Student created with ID 68d4e876a36ca88a3e55da5a
+2025-09-25 07:00:48Z [Information] StudentManagement.Controllers.StudentsController: Student created with ID 68d4e8a0a36ca88a3e55da5b
